@@ -1,4 +1,4 @@
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, timedelta
 
 from fitparse import FitFile
 
@@ -31,36 +31,28 @@ def _formatASSTime(seconds):
 def generateASSFromFit(
         fitFile,
         assFile,
-        startTime : datetime,
-        duration : timedelta,
+        startEpoch,
+        endEpoch,
         subsInterval = 1
 ):
-    endTime = startTime + duration
     stats = FitFile(fitFile)
     records = []
-    testenumerate = 0
 
     #save data from FIT file into list
     for record in stats.get_messages("record"):
         fields = {f.name: f.value for f in record}
         timestamp = fields.get("timestamp")
-        #add timezone to timestamp, adjust for local time (will have to fix to use epoch probably)
+        #add timezone to timestamp, adjust for local time
         if timestamp is not None and timestamp.tzinfo is None:
             timestamp = timestamp.replace(tzinfo=UTC)
             timestamp = timestamp - timedelta(hours=4)
+            timestampEpoch = timestamp.timestamp()
 
-        if testenumerate == 0:
-            testTime = timestamp
-            testenumerate = testenumerate + 1
-
-        if timestamp and startTime <= timestamp <= endTime:
-            deltaSeconds = (timestamp - startTime).total_seconds()
+        if timestamp and startEpoch <= timestampEpoch <= endEpoch:
+            deltaSeconds = timestampEpoch - startEpoch
             fields["deltaSeconds"] = deltaSeconds #save relative time from start of video as well
             records.append(fields)
 
-    print(startTime)
-    print(testTime)
-    print(endTime)
     #build ass file
     lines = [ASS_HEADER]
 
@@ -91,6 +83,5 @@ def generateASSFromFit(
     #write subs to file
     with open(assFile, "w") as f:
         f.writelines(lines)
-
 
     print(f"Generated {assFile} with {len(records)} records")
