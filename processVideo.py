@@ -22,7 +22,9 @@ def getVideoInfo(filename):
                 "date":date,
                 "startTime":startTime,
                 "duration":duration,
-                "endTime":endTime
+                "endTime":endTime,
+                "startEpoch":startTime.timestamp(),
+                "endEpoch":endTime.timestamp()
             }
     return videoMetadata
 
