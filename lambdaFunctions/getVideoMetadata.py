@@ -28,3 +28,5 @@ def getVideoInfo(filename):
             }
     return videoMetadata
 
+#todo: save to s3
+
