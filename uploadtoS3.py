@@ -1,6 +1,8 @@
 import json
 import os
 import re
+import sys
+import threading
 from datetime import UTC, datetime, timedelta
 
 import boto3
@@ -35,16 +37,35 @@ def getVideoInfo(filename):
             }
     return videoMetadata
 
+#progress tracker courtesy of https://codeflex.co/python-s3-multipart-file-upload-with-metadata-and-progress-indicator/
+class ProgressPercentage:
+    def __init__(self, filename):
+        self._filename = filename
+        self._size = float(os.path.getsize(filename))
+        self._seen_so_far = 0
+        self._lock = threading.Lock()
+
+    def __call__(self, bytes_amount):
+        # To simplify, assume this is hooked up to a single filename
+        with self._lock:
+            self._seen_so_far += bytes_amount
+            percentage = (self._seen_so_far / self._size) * 100
+            sys.stdout.write(
+                f"\r{self._filename}  {self._seen_so_far:.0f} / {self._size:.0f}  ({percentage:.2f}%)"
+            )
+            sys.stdout.flush()
+
+#method to upload to s3
 def uploadtoS3(filename, bucket, key):
     s3 = boto3.client('s3')
 
     with open(filename, "rb") as f:
-        s3.upload_fileobj(f, bucket, key)
+        s3.upload_fileobj(f, bucket, key, Callback=ProgressPercentage(filename))
     print (f"Uploaded {filename} to s3://{bucket}/{key}")
+
 
 def main():
     bucket = os.getenv("UPLOAD_BUCKET_NAME") #set bucket name
-    print("Using bucket:", bucket)
 
     videoPath = input("Please enter full video path: ") #ask for filepath and validate it
     if not os.path.isfile(videoPath):
@@ -60,8 +81,8 @@ def main():
     with open(metadataPath, 'w') as f:
        json.dump(videoMetadata, f)
 
-    #uploadtoS3(videoPath, bucket, f"{videoName}.mp4")
-    #uploadtoS3(metadataPath, bucket, metadataPath)
+    uploadtoS3(videoPath, bucket, f"{videoName}.mp4")
+    uploadtoS3(metadataPath, bucket, metadataPath)
 
 if __name__ == "__main__":
     main()
