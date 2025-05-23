@@ -183,3 +183,6 @@ load.py
 *.fit
 *.json
 *.ass
+
+#zips for aws
+*.zip
