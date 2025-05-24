@@ -76,8 +76,8 @@ def main():
 
     videoMetadata = getVideoInfo(videoPath) #get metadata
 
-    metadataPath = f"{videoName}.json" #write metadata file
-    print(metadataPath)
+    metadataPath = f"{videoName}.json" #set metadata name
+
     with open(metadataPath, 'w') as f:
        json.dump(videoMetadata, f)
 

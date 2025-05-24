@@ -186,3 +186,6 @@ load.py
 
 #zips for aws
 *.zip
+
+#build folders
+/lambdaFunctions/*/package
