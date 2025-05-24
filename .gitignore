@@ -184,6 +184,7 @@ playground.sh
 *.fit
 *.json
 *.ass
+sampledata/
 
 #zips for aws
 *.zip
@@ -193,3 +194,9 @@ playground.sh
 
 #container image
 *.tar
+
+#terraform files
+*.tfvars
+*.log
+.terraform/
+
