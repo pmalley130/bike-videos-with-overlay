@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-#save from cli arguments
-BUCKET="$1"
-SUBS_KEY="$2"
-OUTBUCKET="$3"
+#environment variables passed to container at runtime
+echo "source bucket = {$BUCKET}"
+echo "sub file = {$SUBS_KEY}"
+echo "output bucket = {$OUTBUCKET}"
 
 #derive filenames, input files have the same name but different extensions - we're working off the .ass file
 SUBS_FILENAME=$(basename "$SUBS_KEY")
