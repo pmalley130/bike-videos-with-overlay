@@ -18,14 +18,14 @@ SUBS_FILE="subs.ass"
 OUTPUT_VIDEO="output.mp4"
 
 #download from s3
-aws s3 cp "s3://${BUCKET}/${VIDEO_KEY}" "$INPUT_VIDEO"
-aws s3 cp "s3://${BUCKET}/${SUBS_KEY}" "$SUBS_FILE"
+#aws s3 cp "s3://${BUCKET}/${VIDEO_KEY}" "$INPUT_VIDEO"
+#aws s3 cp "s3://${BUCKET}/${SUBS_KEY}" "$SUBS_FILE"
 
 #burn subtitles
 echo "$INPUT_VIDEO + $SUBS_FILE = $OUTPUT_VIDEO"
 ffmpeg -y -i "$INPUT_VIDEO" -vf "subtitles=${SUBS_FILE}" -c:a copy "$OUTPUT_VIDEO"
 
 #upload result
-aws s3 cp "$OUTPUT_FILE" "s3://${OUTBUCKET}/${OUTPUT_KEY}"
+aws s3 cp "$OUTPUT_VIDEO" "s3://${OUTBUCKET}/${OUTPUT_KEY}"
 
 echo "Output uploaded to s3://${OUTBUCKET}/${OUTPUT_KEY}"
