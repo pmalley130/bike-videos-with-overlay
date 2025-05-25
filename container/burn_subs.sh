@@ -18,8 +18,8 @@ SUBS_FILE="subs.ass"
 OUTPUT_VIDEO="output.mp4"
 
 #download from s3
-#aws s3 cp "s3://${BUCKET}/${VIDEO_KEY}" "$INPUT_VIDEO"
-#aws s3 cp "s3://${BUCKET}/${SUBS_KEY}" "$SUBS_FILE"
+aws s3 cp "s3://${BUCKET}/${VIDEO_KEY}" "$INPUT_VIDEO"
+aws s3 cp "s3://${BUCKET}/${SUBS_KEY}" "$SUBS_FILE"
 
 #burn subtitles
 echo "$INPUT_VIDEO + $SUBS_FILE = $OUTPUT_VIDEO"

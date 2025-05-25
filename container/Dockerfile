@@ -11,7 +11,7 @@ RUN apt-get update && \
 #set working directory
 WORKDIR /app
 
-# Copy your bash script into the image
+#copy bash script into the image
 COPY burn_subs.sh .
 
 #make it executable
