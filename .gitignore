@@ -177,9 +177,26 @@ ruff.toml
 #where I test one-liners and such
 playground.py
 load.py
+playground.sh
 
 #fit files and video files for testing
 *.mp4
 *.fit
 *.json
 *.ass
+sampledata/
+
+#zips for aws
+*.zip
+
+#build folders
+/lambdaFunctions/*/package
+
+#container image
+*.tar
+
+#terraform files
+*.tfvars
+*.log
+.terraform/
+
