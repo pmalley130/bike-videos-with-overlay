@@ -67,6 +67,16 @@ data "aws_iam_policy_document" "lambda_subs_role_policy_doc" {
             "arn:aws:kms:*:${local.account_id}:key/*"
         ]
     }
+    statement {
+        sid = "CreateLogs"
+        effect = "Allow"
+        actions = [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents"
+        ]
+        resources = ["*"]
+    }
 }
 
 resource "aws_iam_role_policy" "lambda_subs_role_policy" {
@@ -87,5 +97,5 @@ resource "aws_lambda_function" "generate_subs" {
     handler       = "lambda_function.lambda_handler"
     runtime       = "python3.11"
     filename      = "${path.module}/lambda_function.zip"
-    timeout       = 120
+    timeout       = 600
 }
