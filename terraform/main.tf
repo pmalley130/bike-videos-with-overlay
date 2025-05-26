@@ -1,0 +1,23 @@
+#TODO: ecs, s3, stepfunction/machine, eventbridge
+#root module structure to keep all this TF straight
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+module "networking" {
+  source = "./modules/networking"
+}
+
+module "lambda" {
+  source = "./modules/lambda"
+  input_bucket_name = var.input_bucket_name
+}
