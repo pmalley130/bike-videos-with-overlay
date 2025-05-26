@@ -13,6 +13,7 @@ provider "aws" {
 
 #save account number to variable for use in IAM ARN stuff
 data "aws_caller_identity" "current" {}
+
 locals {
     account_id = data.aws_caller_identity.current.account_id
 }
@@ -85,11 +86,6 @@ resource "aws_iam_role_policy" "lambda_subs_role_policy" {
     policy = data.aws_iam_policy_document.lambda_subs_role_policy_doc.json
 }
 
-#resource "aws_iam_role_policy_attachment" "lambda_exec_role" {
-#    role       = aws_iam_role.lambda_exec_role.name
-#   policy_arn = aws_iam_role_policy.lambda_subs_role_policy.arn
-#}
-
 #the actual function
 resource "aws_lambda_function" "generate_subs" {
     function_name = "generate_subs"
@@ -97,5 +93,5 @@ resource "aws_lambda_function" "generate_subs" {
     handler       = "lambda_function.lambda_handler"
     runtime       = "python3.11"
     filename      = "${path.module}/lambda_function.zip"
-    timeout       = 600
+    timeout       = 300
 }
