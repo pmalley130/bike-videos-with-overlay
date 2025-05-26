@@ -44,7 +44,7 @@ data "aws_iam_policy_document" "lambda_subs_role_policy_doc" {
             "s3:PutObject"
         ]
         resources = [
-            "arn:aws:s3:::${var.input_bucket_name}"
+            "arn:aws:s3:::${var.input_bucket_name}/*"
         ]
     }
     statement {
@@ -86,6 +86,6 @@ resource "aws_lambda_function" "generate_subs" {
     role          = aws_iam_role.lambda_exec_role.arn
     handler       = "lambda_function.lambda_handler"
     runtime       = "python3.11"
-    filename      = "lambda_function.zip"
+    filename      = "${path.module}/lambda_function.zip"
     timeout       = 120
 }
