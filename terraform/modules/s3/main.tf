@@ -33,12 +33,15 @@ resource "aws_lambda_permission" "allow_s3" {
 resource "aws_s3_bucket_notification" "json_notification" {
     bucket = aws_s3_bucket.upload_bucket.id
 
+    eventbridge = true
+    
     lambda_function {
       lambda_function_arn = var.lambda_function_arn
       events = ["s3:ObjectCreated:*"]
       filter_suffix = ".json"
     }
 
+  
     depends_on = [aws_lambda_permission.allow_s3]
 }
 
