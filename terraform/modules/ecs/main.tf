@@ -11,6 +11,14 @@ provider "aws" {
   region = "us-east-1"
 }
 
+###########
+# CLUSTER #
+###########
+
+resource "aws_ecs_cluster" "render_cluster" {
+  name = "video-render-cluster"
+}
+
 ##################
 # EXECUTION ROLE #
 ##################
