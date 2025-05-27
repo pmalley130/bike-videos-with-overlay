@@ -12,12 +12,8 @@ provider "aws" {
 }
 
 #bucket we upload source video to
-resource "aws_s3_bucket" "upload_bucket" {
+data "aws_s3_bucket" "upload_bucket" {
     bucket = var.input_bucket_name
-
-    lifecycle {
-      prevent_destroy = true
-    }
 }
 
 #role that allows the bucket to invoke lambda
@@ -26,12 +22,12 @@ resource "aws_lambda_permission" "allow_s3" {
     action = "lambda:InvokeFunction"
     function_name = var.lambda_function_arn
     principal = "s3.amazonaws.com"
-    source_arn = aws_s3_bucket.upload_bucket.arn
+    source_arn = data.aws_s3_bucket.upload_bucket.arn
 }
 
 #actual notification
 resource "aws_s3_bucket_notification" "json_notification" {
-    bucket = aws_s3_bucket.upload_bucket.id
+    bucket = data.aws_s3_bucket.upload_bucket.id
 
     eventbridge = true
     
@@ -46,10 +42,6 @@ resource "aws_s3_bucket_notification" "json_notification" {
 }
 
 #bucket where rendered video goes
-resource "aws_s3_bucket" "output_bucket" {
+data "aws_s3_bucket" "output_bucket" {
   bucket = var.output_bucket_name
-
-  lifecycle {
-    prevent_destroy = true
-  }
 }
