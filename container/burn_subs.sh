@@ -1,10 +1,10 @@
 #!/bin/bash
 set -e
 
-#save from cli arguments
-BUCKET="$1"
-SUBS_KEY="$2"
-OUTBUCKET="$3"
+#environment variables passed to container at runtime
+echo "source bucket = {$BUCKET}"
+echo "sub file = {$SUBS_KEY}"
+echo "output bucket = {$OUTBUCKET}"
 
 #derive filenames, input files have the same name but different extensions - we're working off the .ass file
 SUBS_FILENAME=$(basename "$SUBS_KEY")
@@ -26,6 +26,6 @@ echo "$INPUT_VIDEO + $SUBS_FILE = $OUTPUT_VIDEO"
 ffmpeg -y -i "$INPUT_VIDEO" -vf "subtitles=${SUBS_FILE}" -c:a copy "$OUTPUT_VIDEO"
 
 #upload result
-aws s3 cp "$OUTPUT_FILE" "s3://${OUTBUCKET}/${OUTPUT_KEY}"
+aws s3 cp "$OUTPUT_VIDEO" "s3://${OUTBUCKET}/${OUTPUT_KEY}"
 
 echo "Output uploaded to s3://${OUTBUCKET}/${OUTPUT_KEY}"
