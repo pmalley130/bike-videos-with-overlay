@@ -23,7 +23,6 @@ Proof of concept to utilize AWS to automate rendering stats from a bike ride (FI
   pymediainfo
   AWSCLI
   See .env.example for needed environment variables
-
   ```
 
 
