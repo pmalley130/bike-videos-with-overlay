@@ -119,7 +119,7 @@ resource "aws_sfn_state_machine" "render_ecs_state_machine" {
                                 Environment = [
                                     {
                                         Name = "SUBS_KEY"
-                                        Value = "$.detail.object.key"
+                                        "Value.$" = "$.detail.object.key"
                                     }
                                 ]
                             }

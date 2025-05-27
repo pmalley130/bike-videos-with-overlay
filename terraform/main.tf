@@ -48,3 +48,9 @@ module "stepfunctions" {
   render_task_role   = module.ecs.render_task_role
   ecs_execution_role = module.ecs.ecs_execution_role
 }
+
+module "eventbridge" {
+  source = "./modules/eventbridge"
+  input_bucket_name = var.input_bucket_name
+  render_ecs_state_machine = module.stepfunctions.render_ecs_state_machine_arn
+}

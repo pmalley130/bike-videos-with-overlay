@@ -145,11 +145,11 @@ resource "aws_ecs_task_definition" "render_task" {
             environment = [
                 {
                     name = "OUTBUCKET"
-                    value = "${var.output_bucket_name}"
+                    value = var.output_bucket_name
                 },
                 {
                     name = "BUCKET"
-                    value = "${var.input_bucket_name}"
+                    value = var.input_bucket_name
                 }
             ]
 
