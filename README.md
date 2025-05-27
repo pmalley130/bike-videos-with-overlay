@@ -1,6 +1,8 @@
 # Bike Video Overlay Automation
 Proof of concept to utilize AWS to automate rendering stats from a bike ride (FIT file) over a video from an Insta360Go camera. Infrastructure is built via Terraform.
 
+![It might be ugly but it works!](/images/sample_image.jpg)
+
 ## Workflow
 1. Users run a local interactive script <code>uploadtoS3.py</code> that extracts metadata from the video, then uploads both the video and a <code>json</code> file with required metadata for the next step.
 2. A lambda function <code>.\lambdaFunctions\lambda_function.py</code>triggers that
@@ -44,5 +46,3 @@ Proof of concept to utilize AWS to automate rendering stats from a bike ride (FI
 
 ### Thanks
 Thank you to the [Telemetry Overlay](https://goprotelemetryextractor.com/) team for spawning idea. This project was more about utilizing cloud infrastructure than the final product... mostly because there's no way in I'll ever beat out what their tool can do!
-  
-![It might be ugly but it works!](/images/sample_image.jpg)
