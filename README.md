@@ -38,13 +38,14 @@ Proof of concept to utilize AWS to automate rendering stats from a bike ride (FI
 
 ### To-do
 - Package <code>uploadtoS3.py</code> with pyInstaller so it's portable.
+- Add SNS email notification on completion.
 - Terraform the <code>intervals.icu</code> API key into parameter store/reference it in tfvars.
 - Fix the hard-coding of "burn-subs" in the ECS module.
 - Make the stats prettier.
 - Fix timing the subs to take breaks in the FIT file (due to breaks in riding!) into account.
-- Change ECS type from FARGATE to EC2 (two reasons)
-    - Use s3 endpoint for video data transactions
-    - Allow gpu for faster encoding (right now 8 vCPU and 32GB RAM renders 4k @ .7x - most of my videos are looong)
+- Change ECS type from FARGATE to EC2 (two reasons):
+    - Use s3 endpoint for video data transactions.
+    - Allow gpu for faster encoding (right now 8 vCPU and 32GB RAM renders 4k @ .7x - most of my videos are looong).
 
 ### Thanks
 Thank you to the [Telemetry Overlay](https://goprotelemetryextractor.com/) team for spawning idea. This project was more about utilizing cloud infrastructure than the final product... mostly because there's no way in I'll ever beat out what their tool can do!
